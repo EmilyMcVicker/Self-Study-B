@@ -1,0 +1,32 @@
+
+
+* 	(1) Create a bar graph of survival rates by passenger class
+
+tab survived
+tab pclass
+
+
+capture drop survivedy
+capture drop survivedn
+gen survivedy = survived==1
+gen survivedn = survived==0
+
+
+graph bar  survivedy survivedn ,  over(pclass) bar(1, color(cranberry)) bar(2, color(dknavy)) ///
+	legend(label(1 "Survived") label(2 "Did Not Survive")) ///
+	title("Titanic passengers; Class by survival or not") subtitle ("A bar graph showing 	the proportion of people in each class survived the crash.") ///
+	note("Produced: $S_TIME $S_DATE")
+
+
+
+* 	(2) Create a scatter plot of age versus fare, using colour to represent
+*		survival and shape to represent passenger class
+
+
+
+twoway (scatter age fare if survived==0 & pclass==1, msize(small) mcolor(blue) msymbol(square_hollow)) (scatter age fare if survived==1 & pclass==1, msize(small) mcolor(red) msymbol(square_hollow)) ///
+(scatter age fare if survived==0 & pclass==2, msize(small) mcolor(blue) msymbol(triangle_hollow)) (scatter age fare if survived==1 & pclass==2, msize(small) mcolor(red) msymbol(triangle_hollow)) ///
+(scatter age fare if survived==0 & pclass==3, msize(small) mcolor(blue) msymbol(circle_hollow)) (scatter age fare if survived==1 & pclass==3, msize (small) mcolor(red) msymbol(circle_hollow)), ///
+	legend(label(1 "1st Class") label(2 "1st Class Died") label(3 "2nd Class") label(4 "2nd Class Died") label(5 "3rd Class") label(6 "3rd Class Died")) /// 
+	title("Titanic Passengers Age & Fare by Survival and Class") ///
+	note("Produced: $S_TIME $S_DATE")
